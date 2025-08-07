@@ -6,7 +6,7 @@ from itertools import cycle
 
 import numpy as np
 import requests
-import tls_client
+import httpx
 import urllib3
 from markdownify import markdownify as md
 from requests.adapters import HTTPAdapter, Retry
@@ -86,10 +86,10 @@ class RequestsRotating(RotatingProxySession, requests.Session):
         return requests.Session.request(self, method, url, **kwargs)
 
 
-class TLSRotating(RotatingProxySession, tls_client.Session):
+class TLSRotating(RotatingProxySession, httpx.Session):
     def __init__(self, proxies=None):
         RotatingProxySession.__init__(self, proxies=proxies)
-        tls_client.Session.__init__(self, random_tls_extension_order=True)
+        httpx.Session.__init__(self, random_tls_extension_order=True)
 
     def execute_request(self, *args, **kwargs):
         if self.proxy_cycle:
@@ -98,7 +98,7 @@ class TLSRotating(RotatingProxySession, tls_client.Session):
                 self.proxies = next_proxy
             else:
                 self.proxies = {}
-        response = tls_client.Session.execute_request(self, *args, **kwargs)
+        response = httpx.Session.execute_request(self, *args, **kwargs)
         response.ok = response.status_code in range(200, 400)
         return response
 
