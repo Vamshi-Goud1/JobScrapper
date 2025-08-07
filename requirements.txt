@@ -2,7 +2,12 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
 pydantic==2.5.0
-pandas>=1.5.0
-httpx
-markdownify
-regex
+pandas==2.1.0
+numpy==1.26.3
+beautifulsoup4==4.12.2
+markdownify==0.13.1
+regex==2023.12.25
+requests==2.31.0
+tls-client==1.0.1
+python-json-logger==2.0.7
+certifi==2023.11.17
